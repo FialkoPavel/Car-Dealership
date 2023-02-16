@@ -1,0 +1,18 @@
+<div class="mat-elevation-z8" *ngIf="userTableData.length">
+  <table mat-table [dataSource]="dataSource">
+    <ng-container *ngFor="let column of columns">
+      <ng-container [matColumnDef]="column.name" >
+        <th mat-header-cell *matHeaderCellDef> {{column.nameToDisplay}} </th>
+        <td mat-cell *matCellDef="let element"> {{element[column.name]}} </td>
+      </ng-container>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                 showFirstLastButtons
+                 aria-label="Select page of periodic elements">
+  </mat-paginator>
+</div>

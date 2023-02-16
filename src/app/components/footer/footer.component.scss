@@ -1,0 +1,35 @@
+@import "../../shared-styles/shared-styles.scss";
+
+.footer {
+  height: 100px;
+  padding: 4px 25px;
+  background-color: $darkBlue;
+  display: flex;
+  // align-items: center;
+  // justify-content: space-between;
+  color: $white;
+
+  .footer-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 17px;
+
+    .title {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+
+      .mat-icon {
+        height: 40px;
+        width: 40px;
+        font-size: 40px;
+
+        span {
+          font-size: 40px;
+        }
+      }
+    }
+  }
+}

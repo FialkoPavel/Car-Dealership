@@ -1,0 +1,41 @@
+<div class="test2">
+
+  <div class="wrapper">
+    <div class="charts">
+      <div class="chart">
+        <ngx-charts-bar-vertical
+          [results]="amounOfSeatsData"
+          [gradient]="false"
+          [xAxis]="true"
+          [yAxis]="true"
+          [showXAxisLabel]="true"
+          [showYAxisLabel]="true"
+          [xAxisLabel]="'Amount of seats'"
+          [yAxisLabel]="'Age'"
+          [view]="[300, 300]"
+        >
+        </ngx-charts-bar-vertical>
+      </div>
+      <div class="chart">
+        <ngx-charts-pie-grid [results]="engineData" [view]="[300, 300]"> </ngx-charts-pie-grid>
+      </div>
+      <div class="chart">
+        <ngx-charts-pie-grid [results]="visitorsData" [scheme]="'night'" [view]="[300, 300]">
+        </ngx-charts-pie-grid>
+      </div>
+      <div class="chart">
+        <ngx-charts-pie-chart
+          [results]="hobbiesData"
+          [gradient]="false"
+          [labels]="true"
+          [view]="[300, 300]"
+        >
+        </ngx-charts-pie-chart>
+      </div>
+    </div>
+    <div class="table">
+      <app-dashboard-table [userTableData]="userTableData"></app-dashboard-table>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,23 @@
+@import "../../shared-styles/shared-styles.scss";
+
+.header {
+  height: 56px;
+  padding: 4px 25px;
+  background-color: $darkBlue;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 2;
+  box-shadow: 0 3px 5px -1px #0003, 0 6px 10px #00000024, 0 1px 18px #0000001f;
+  display: flex;
+  align-items: center;
+  color: $white;
+
+  .title-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 17px;
+  }
+}
