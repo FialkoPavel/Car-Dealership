@@ -1,75 +1,105 @@
-<div class="form-container">
-  <form [formGroup]="form" class="form">
-    <mat-form-field>
-      <mat-label>Full Name</mat-label>
-      <input matInput formControlName="fullName">
-    </mat-form-field>
+<form [formGroup]="form" class="h-100 d-flex align-center justify-center">
+  <div class="form-container">
+    <div class="d-flex flex-wrap gap-30 justify-center">
+      <div class="d-flex direction-column">
+        <mat-form-field>
+          <mat-label>Full Name</mat-label>
+          <input matInput formControlName="fullName" />
+        </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Gender</mat-label>
-      <mat-select formControlName="gender">
-        <mat-option value="male">Male</mat-option>
-        <mat-option value="female">Female</mat-option>
-        <mat-option value="other">Other</mat-option>
-      </mat-select>
-    </mat-form-field>
+        <mat-form-field>
+          <mat-label>Gender</mat-label>
+          <mat-select formControlName="gender">
+            <mat-option value="male">Male</mat-option>
+            <mat-option value="female">Female</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Email</mat-label>
-      <input matInput formControlName="email">
-    </mat-form-field>
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" />
+        </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Birth Date</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="birthDate">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
+        <mat-form-field>
+          <mat-label>Birth Date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            formControlName="birthDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Address</mat-label>
-      <input matInput formControlName="address">
-    </mat-form-field>
+        <mat-form-field>
+          <mat-label>Address</mat-label>
+          <input matInput formControlName="address" />
+        </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>City</mat-label>
-      <input matInput formControlName="city">
-    </mat-form-field>
+        <mat-form-field>
+          <mat-label>City</mat-label>
+          <input matInput formControlName="city" />
+        </mat-form-field>
+      </div>
 
-    <mat-form-field>
-      <mat-label>Country</mat-label>
-      <input matInput formControlName="country">
-    </mat-form-field>
+      <div class="d-flex direction-column">
+        <mat-form-field>
+          <mat-label>Country</mat-label>
+          <input matInput formControlName="country" />
+        </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Hobbies</mat-label>
-      <mat-select formControlName="hobbies" multiple>
-        <mat-option *ngFor="let hobby of hobbies" [value]="hobby">{{hobby}}</mat-option>
-      </mat-select>
-    </mat-form-field>
+        <mat-form-field>
+          <mat-label>Hobbies</mat-label>
+          <mat-select formControlName="hobbies" multiple>
+            <mat-option *ngFor="let hobby of hobbies" [value]="hobby">{{
+              hobby
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Favorite Color</mat-label>
-      <input matInput type="color" formControlName="favoriteColor" class="color-picker">
-      <!-- <mat-color-picker #picker></mat-color-picker> -->
-    </mat-form-field>
+        <mat-form-field>
+          <mat-label>Favorite Color</mat-label>
+          <input
+            matInput
+            type="color"
+            formControlName="favoriteColor"
+            class="pointer"
+            [(ngModel)]="selectedColor"
+          />
+        </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Required Amount of Seats</mat-label>
-      <mat-select formControlName="requiredSeats">
-        <mat-option *ngFor="let seat of seats" [value]="seat">{{seat}}</mat-option>
-      </mat-select>
-    </mat-form-field>
+        <mat-form-field>
+          <mat-label>Required Amount of Seats</mat-label>
+          <mat-select formControlName="requiredSeats">
+            <mat-option *ngFor="let seat of seats" [value]="seat">{{
+              seat
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Motor Type</mat-label>
-      <mat-select formControlName="motorType">
-        <mat-option value="electric">Electric</mat-option>
-        <mat-option value="fuel">Fuel</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <button mat-raised-button color="primary" (click)="submitForm()">Submit</button>
-  </form>
-</div>
-
+        <mat-form-field>
+          <mat-label>Motor Type</mat-label>
+          <mat-select formControlName="motorType">
+            <mat-option value="electric">Electric</mat-option>
+            <mat-option value="fuel">Fuel</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div [matTooltip]="tooltipContent">
+      <button
+        mat-raised-button
+        type="button"
+        class="w-100"
+        color="primary"
+        (click)="submitForm()"
+        [disabled]="form.invalid"
+      >
+        {{ btnLabel }}
+      </button>
+    </div>
+  </div>
+</form>

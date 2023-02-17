@@ -13,6 +13,8 @@ import { DashboardTableComponent } from './components/dashboard/dashboard-table/
 import { LocalStorageService } from './services/local-storage.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FooterComponent } from './components/footer/footer.component';
+import { NotificationDialogComponent } from './components/notification-dialog/notification-dialog.component';
+import { MapComponent } from './components/map/map.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { FooterComponent } from './components/footer/footer.component';
     HeaderComponent,
     DashboardComponent,
     DashboardTableComponent,
-    FooterComponent
+    FooterComponent,
+    NotificationDialogComponent,
+    MapComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,6 +38,6 @@ import { FooterComponent } from './components/footer/footer.component';
     NgxChartsModule,
   ],
   providers: [LocalStorageService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

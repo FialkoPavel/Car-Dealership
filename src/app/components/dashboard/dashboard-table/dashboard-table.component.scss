@@ -1,6 +1,11 @@
-@import '../../../shared-styles/shared-styles.scss';
+@import "../../../shared-styles/shared-styles.scss";
 
-// table {
-//   width: 100%;
-// }
+.table-container {
+  overflow-x: auto;
 
+  .color-picker {
+    width: 20px;
+    border-radius: 5px;
+    border: 1px solid $gray;
+  }
+}

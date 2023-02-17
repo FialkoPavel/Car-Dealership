@@ -1,4 +1,11 @@
-.test
-{
-  height: calc(100vh - 100px);
+main {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
+}
+
+footer {
+  margin-top: auto;
 }

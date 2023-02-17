@@ -17,6 +17,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public hobbiesData: IChart[] = [];
   public engineData: IChart[] = [];
   public visitorsData: IChart[] = [];
+  public citiesData: IChart[] = [];
 
   constructor(private localStorageService: LocalStorageService) {}
 
@@ -27,6 +28,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.getEngineData();
     this.getEngineData();
     this.getVisitorsData();
+    this.citiesData = this.countCities();
   }
 
   private transformData(data: Storage) {
@@ -35,28 +37,38 @@ export class DashboardComponent implements OnInit, OnDestroy {
       const local: any = data.getItem(key);
       if (key != 'numberOfVisitors') {
         const userData: UserData = JSON.parse(local);
-        const transformFormatDate: UserData = {...userData, ['birthDate']: new Date(userData.birthDate).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }).toString() }
+        const transformFormatDate: UserData = {
+          ...userData,
+          ['birthDate']: new Date(userData.birthDate)
+            .toLocaleDateString('en-GB', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+            })
+            .toString(),
+        };
         this.userTableData.push(transformFormatDate);
         this.localStorageData.push(userData);
       }
+    }
   }
-}
 
   private runSubcripton() {
-    this.localStorageService.getData().pipe(
-      takeUntil(this._isDestroyed$)
-    ).subscribe((data: Storage) => {
-      this.transformData(data);
-    });
+    this.localStorageService
+      .getData()
+      .pipe(takeUntil(this._isDestroyed$))
+      .subscribe((data: Storage) => {
+        this.transformData(data);
+      });
   }
 
   private getAmounOfSeatsData() {
-    this.localStorageData.forEach(item => {
+    this.localStorageData.forEach((item) => {
       this.amounOfSeatsData.push({
         name: item.requiredSeats,
         value: this.countOfAge(item.birthDate),
       });
-    })
+    });
   }
 
   private countOfAge(birthDate: string) {
@@ -79,13 +91,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private getHobbiesData() {
     const hobbiesData: number = this.localStorageData
       .flatMap((obj) => obj.hobbies)
-      .reduce((counts: {[hobby: string]: number}, hobby: string) => {
+      .reduce((counts: { [hobby: string]: number }, hobby: string) => {
         counts[hobby] = (counts[hobby] || 0) + 1;
         return counts;
       }, {});
 
     Object.entries(hobbiesData).forEach(([name, value]) => {
-      this.hobbiesData.push({name, value});
+      this.hobbiesData.push({ name, value });
     });
   }
 
@@ -93,7 +105,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.engineData = this.localStorageData.reduce((acc, user) => {
       const { gender, motorType } = user;
       if (gender && motorType) {
-        const name = `${gender.charAt().toUpperCase() + gender.substring(1)} ${motorType.charAt().toUpperCase() + motorType.substring(1)}`;
+        const name = `${gender.charAt().toUpperCase() + gender.substring(1)} ${
+          motorType.charAt().toUpperCase() + motorType.substring(1)
+        }`;
 
         const existing = acc.find((item: IChart) => item.name === name);
         if (existing) {
@@ -110,13 +124,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.visitorsData = [
       {
         name: 'Visitors',
-        value: Number(localStorage.getItem('numberOfVisitors'))
+        value: Number(localStorage.getItem('numberOfVisitors')),
       },
       {
         name: 'Customers',
-        value: this.localStorageData.length
-      }
-    ]
+        value: this.localStorageData.length,
+      },
+    ];
+  }
+
+  countCities(): { name: string; value: number }[] {
+    const counts: { [key: string]: number } = {};
+    for (let i = 0; i < this.localStorageData.length; i++) {
+      const city = this.localStorageData[i].city;
+      counts[city] = counts[city] ? counts[city] + 1 : 1;
+    }
+    return Object.entries(counts).map(([name, value]) => ({ name, value }));
   }
 
   ngOnDestroy(): void {

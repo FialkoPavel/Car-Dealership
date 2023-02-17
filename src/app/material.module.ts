@@ -11,6 +11,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   exports: [
@@ -25,8 +27,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatFormFieldModule,
     MatOptionModule,
     MatTableModule,
-    MatPaginatorModule
-  ]
+    MatPaginatorModule,
+    MatDialogModule,
+    MatTooltipModule,
+  ],
 })
-
-export class MaterialModule { }
+export class MaterialModule {}

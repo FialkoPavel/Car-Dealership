@@ -1,18 +1,31 @@
-<div class="mat-elevation-z8" *ngIf="userTableData.length">
-  <table mat-table [dataSource]="dataSource">
-    <ng-container *ngFor="let column of columns">
-      <ng-container [matColumnDef]="column.name" >
-        <th mat-header-cell *matHeaderCellDef> {{column.nameToDisplay}} </th>
-        <td mat-cell *matCellDef="let element"> {{element[column.name]}} </td>
+<div class="mat-elevation-z8">
+  <div class="table-container">
+    <table mat-table [dataSource]="dataSource">
+      <ng-container *ngFor="let column of columns">
+        <ng-container [matColumnDef]="column.name">
+          <th mat-header-cell *matHeaderCellDef>{{ column.nameToDisplay }}</th>
+          <td mat-cell *matCellDef="let element">
+            <div class="d-flex gap-10">
+              <div
+                class="color-picker"
+                *ngIf="column.name === 'favoriteColor'"
+                [ngStyle]="{ background: element[column.name] }"
+              ></div>
+              <div>{{ element[column.name] }}</div>
+            </div>
+          </td>
+        </ng-container>
       </ng-container>
-    </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-    <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
-  </table>
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+    </table>
+  </div>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                 showFirstLastButtons
-                 aria-label="Select page of periodic elements">
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons
+    aria-label="Select page of periodic elements"
+  >
   </mat-paginator>
 </div>

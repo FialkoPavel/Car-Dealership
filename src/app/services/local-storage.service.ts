@@ -8,8 +8,6 @@ import { UserData } from 'src/core/models/user.model';
   providedIn: 'root',
 })
 export class LocalStorageService {
-  private dataKey = 'key_' + new Date().getTime();
-
   constructor(private http: HttpClient) {}
 
   getData(): Observable<Storage> {
@@ -22,9 +20,9 @@ export class LocalStorageService {
     }
   }
 
-  saveData(data: UserData): Observable<UserData> {
+  saveData(key: string, data: UserData): Observable<UserData> {
     try {
-      localStorage.setItem(this.dataKey, JSON.stringify(data));
+      localStorage.setItem(key, JSON.stringify(data));
       return of(data);
     } catch (error) {
       console.error(error);

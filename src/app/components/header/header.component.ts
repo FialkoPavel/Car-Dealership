@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -7,8 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
   public title: string = 'Car Dealership';
+  public buttonLink: string = '';
+  public buttonText: string = '';
 
-  constructor() {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        if (event.url === '/') {
+          this.buttonLink = '/dashboard';
+          this.buttonText = 'Go to Dashboard';
+        } else if (event.url === '/dashboard') {
+          this.buttonLink = '/';
+          this.buttonText = 'Go to Form';
+        }
+      }
+    });
+  }
 }
