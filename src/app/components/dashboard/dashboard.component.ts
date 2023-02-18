@@ -26,34 +26,35 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.getAmounOfSeatsData();
     this.getHobbiesData();
     this.getEngineData();
-    this.getEngineData();
     this.getVisitorsData();
     this.citiesData = this.countCities();
   }
 
-  private transformData(data: Storage) {
+  private transformData(data: Storage): void {
     for (let i = 0; i < data.length; i++) {
-      const key: any = data.key(i);
-      const local: any = data.getItem(key);
-      if (key != 'numberOfVisitors') {
-        const userData: UserData = JSON.parse(local);
-        const transformFormatDate: UserData = {
-          ...userData,
-          ['birthDate']: new Date(userData.birthDate)
-            .toLocaleDateString('en-GB', {
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric',
-            })
-            .toString(),
-        };
-        this.userTableData.push(transformFormatDate);
-        this.localStorageData.push(userData);
+      const key: string | null = data.key(i);
+      if (key && key.includes('key_')) {
+        const local: string | null = data.getItem(key);
+        if (local) {
+          const userData: UserData = JSON.parse(local);
+          const transformFormatDate: UserData = {
+            ...userData,
+            ['birthDate']: new Date(userData.birthDate)
+              .toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+              })
+              .toString(),
+          };
+          this.userTableData.push(transformFormatDate);
+          this.localStorageData.push(userData);
+        }
       }
     }
   }
 
-  private runSubcripton() {
+  private runSubcripton(): void {
     this.localStorageService
       .getData()
       .pipe(takeUntil(this._isDestroyed$))
@@ -62,16 +63,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
       });
   }
 
-  private getAmounOfSeatsData() {
-    this.localStorageData.forEach((item) => {
+  private getAmounOfSeatsData(): void {
+    this.localStorageData.forEach((item: UserData) => {
       this.amounOfSeatsData.push({
-        name: item.requiredSeats,
+        name: item.requiredSeats.toString(),
         value: this.countOfAge(item.birthDate),
       });
     });
   }
 
-  private countOfAge(birthDate: string) {
+  private countOfAge(birthDate: string): number {
     let age: number = 0;
     const today = new Date();
     const birthdate = new Date(birthDate);
@@ -88,7 +89,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     return age;
   }
 
-  private getHobbiesData() {
+  private getHobbiesData(): void {
     const hobbiesData: number = this.localStorageData
       .flatMap((obj) => obj.hobbies)
       .reduce((counts: { [hobby: string]: number }, hobby: string) => {
@@ -101,26 +102,29 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  private getEngineData() {
-    this.engineData = this.localStorageData.reduce((acc, user) => {
-      const { gender, motorType } = user;
-      if (gender && motorType) {
-        const name = `${gender.charAt().toUpperCase() + gender.substring(1)} ${
-          motorType.charAt().toUpperCase() + motorType.substring(1)
-        }`;
+  private getEngineData(): void {
+    this.engineData = this.localStorageData.reduce(
+      (acc: IChart[], user: UserData) => {
+        const { gender, motorType } = user;
+        if (gender && motorType) {
+          const name = `${
+            gender.charAt(0).toUpperCase() + gender.substring(1)
+          } ${motorType.charAt(0).toUpperCase() + motorType.substring(1)}`;
 
-        const existing = acc.find((item: IChart) => item.name === name);
-        if (existing) {
-          existing.value++;
-        } else {
-          acc.push({ name, value: 1 });
+          const existing = acc.find((item: IChart) => item.name === name);
+          if (existing) {
+            existing.value++;
+          } else {
+            acc.push({ name, value: 1 });
+          }
         }
-      }
-      return acc;
-    }, []);
+        return acc;
+      },
+      []
+    );
   }
 
-  private getVisitorsData() {
+  private getVisitorsData(): void {
     this.visitorsData = [
       {
         name: 'Visitors',

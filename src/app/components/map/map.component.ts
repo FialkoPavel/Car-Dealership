@@ -34,14 +34,18 @@ export class MapComponent implements OnInit {
       )
         .then((response) => response.json())
         .then((data) => {
-          const location = data.results[0].geometry.location;
-          const markerOptions = {
-            position: location,
-            map: map,
-            title: cityName,
-          };
-          const marker = new google.maps.Marker(markerOptions as any);
-          markers.push(marker);
+          if (data.results.length > 0 && data.results[0].geometry) {
+            const location = data.results[0].geometry.location;
+            const markerOptions = {
+              position: location,
+              map: map,
+              title: cityName.name,
+            };
+            const marker = new google.maps.Marker(markerOptions as any);
+            markers.push(marker);
+          } else {
+            console.error(`Failed to fetch location for ${cityName.name}`);
+          }
         })
         .catch((error) => {
           console.error(`Failed to fetch location for ${cityName}`, error);

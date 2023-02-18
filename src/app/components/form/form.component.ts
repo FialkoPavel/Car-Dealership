@@ -59,7 +59,7 @@ export class FormComponent implements OnInit {
     );
   }
 
-  submitForm() {
+  submitForm(): void {
     if (this.form.valid) {
       const key = 'key_' + new Date().getTime();
       this.localStorageService.saveData(key, this.form.value);
